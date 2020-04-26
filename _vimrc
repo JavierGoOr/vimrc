@@ -1,8 +1,10 @@
 colorscheme darkblue
 set number
+set linebreak
 set encoding=utf-8
 syntax enable
-set guifont=Lucida_Console:h10
+set ignorecase
+set smartcase
 
 filetype plugin indent on
 " show existing tab with 4 spaces width
@@ -12,16 +14,14 @@ set shiftwidth=4
 " On pressing tab, insert 4 spaces
 set expandtab
 
-nnoremap <C-Up> :silent! let &guifont = substitute(
- \ &guifont,
- \ ':h\zs\d\+',
- \ '\=eval(submatch(0)+1)',
- \ '')<CR>
-nnoremap <C-Down> :silent! let &guifont = substitute(
- \ &guifont,
- \ ':h\zs\d\+',
- \ '\=eval(submatch(0)-1)',
- \ '')<CR>
+let s:fontsize = 12
+function! AdjustFontSize(amount)
+    let s:fontsize = s:fontsize+a:amount
+    :execute "GuiFont! Consolas:h" . s:fontsize
+endfunction
+
+noremap <C-ScrollWheelUp> :call AdjustFontSize(1)<CR>
+noremap <C-ScrollWheelDown> :call AdjustFontSize(-1)<CR>
 
 nnoremap <C-Insert> :tabnew<CR>
 nnoremap <C-Delete> :tabclose<CR>
